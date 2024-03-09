@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <RootNamespace>CS2_CustomVotes</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CounterStrikeSharp.API" Version="1.0.191" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CS2-CustomVotes.Shared\CS2-CustomVotes.Shared.csproj" />
+    </ItemGroup>
+
+</Project>
