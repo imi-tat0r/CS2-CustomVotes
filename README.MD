@@ -1,6 +1,6 @@
 ![Copyright ev0lve Digital](https://img.shields.io/badge/Copyright-ev0lve%20Digital-blue) ![GitHub License](https://img.shields.io/github/license/imi-tat0r/CS2-CustomVotes) ![Issues](https://img.shields.io/github/issues/imi-tat0r/CS2-CustomVotes) ![Downloads](https://img.shields.io/github/downloads/imi-tat0r/CS2-CustomVotes/total) ![Stars](https://img.shields.io/github/stars/imi-tat0r/CS2-CustomVotes)
 
-# CS2 Custom Votes (1.0.0)
+# CS2 Custom Votes (1.0.1)
 ![image](https://du.hurenso.hn/r/X4jQaq.png) ![image](https://du.hurenso.hn/r/81Imq8.png)
 
 # About
@@ -58,13 +58,14 @@ Every vote options can trigger multiple commands at once allowing for a wide ran
          },
          "DefaultOption": "Disable", // default option (must be a key from the "Options" object)
          "Style": "chat", // Menu style - "center" or "chat" (will be overridden by the global ForceStyle if not "none")
+         "MinVotePercentage": -1, // minimum percentage of votes required to pass the vote (-1 behaves like 50%)
          "Permission": {
             "RequiresAll": false, // if true, all permissions must be present to vote
             "Permissions": [] // list of permissions required to start this vote (empty list allows everyone to start the vote)
          }
       }
    ],
-   "ConfigVersion": 1
+   "ConfigVersion": 2
 }
 ```
 
@@ -75,6 +76,8 @@ public interface ICustomVoteApi
 {
     public void AddCustomVote(string name, string description, string defaultOption, float timeToVote, Dictionary<string, VoteOption> options, string style);
     public void AddCustomVote(string name, List<string> aliases, string description, string defaultOption, float timeToVote, Dictionary<string, VoteOption> options, string style);
+    public void AddCustomVote(string name, string description, string defaultOption, float timeToVote, Dictionary<string, VoteOption> options, string style, int minVotePercentage);
+    public void AddCustomVote(string name, List<string> aliases, string description, string defaultOption, float timeToVote, Dictionary<string, VoteOption> options, string style, int minVotePercentage);
     public void RemoveCustomVote(string name);
 }
 
@@ -89,7 +92,8 @@ customVotesApi.AddCustomVote(
                 { "Enable", new VoteOption("{Green}Enable", new List<string> { "sv_cheats 1" })},
                 { "Disable", new VoteOption("{Red}Disable", new List<string> { "sv_cheats 0" })},
             },
-            "chat"); // Menu style - "center" or "chat"
+            "chat", // Menu style - "center" or "chat"
+            -1); // minimum percentage of votes required to pass the vote (-1 behaves like 50%)
 
 customVotesApi.RemoveCustomVote("cheats");
 ```

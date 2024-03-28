@@ -50,6 +50,11 @@ public class ActiveVote
             return new KeyValuePair<string, List<uint>>(Vote.DefaultOption, new List<uint>());
         
         var winningOption = OptionVotes.MaxBy(x => x.Value.Count);
-        return winningOption;
+        var totalVotes = OptionVotes.Sum(x => x.Value.Count);
+
+        if (Vote.MinVotePercentage < 0 || winningOption.Value.Count >= totalVotes * Vote.MinVotePercentage / 100) 
+            return winningOption;
+        
+        return new KeyValuePair<string, List<uint>>(Vote.DefaultOption, new List<uint>());
     }
 }

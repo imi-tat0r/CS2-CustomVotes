@@ -15,4 +15,10 @@
       <ProjectReference Include="..\CS2-CustomVotes.Shared\CS2-CustomVotes.Shared.csproj" />
     </ItemGroup>
 
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Exec Command="mkdir $(SolutionDir)Public\addons\counterstrikesharp\plugins\CS2-CustomVotes\lang" IgnoreExitCode="true" />
+        <Exec Command="xcopy /Y /R $(TargetDir)*.* $(SolutionDir)Public\addons\counterstrikesharp\plugins\CS2-CustomVotes\" />
+        <Exec Command="xcopy /Y /R $(ProjectDir)lang\*.* $(SolutionDir)Public\addons\counterstrikesharp\plugins\CS2-CustomVotes\lang\" />
+    </Target>
+
 </Project>
