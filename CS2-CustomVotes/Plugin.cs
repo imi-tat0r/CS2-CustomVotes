@@ -1,9 +1,12 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using System.Text.Json;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
+using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Core.Capabilities;
+using CounterStrikeSharp.API.Modules.Admin;
+using CounterStrikeSharp.API.Modules.Commands;
+using CS2_CustomVotes.Extensions;
 using CS2_CustomVotes.Factories;
-using CS2_CustomVotes.Helpers;
-using CS2_CustomVotes.Models;
 using CS2_CustomVotes.Services;
 using CS2_CustomVotes.Shared;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +19,7 @@ public class CustomVotes : BasePlugin, IPluginConfig<CustomVotesConfig>
 {
     public override string ModuleName => "Custom Votes";
     public override string ModuleDescription => "Allows you to create custom votes for your server.";
-    public override string ModuleVersion => "1.0.0";
+    public override string ModuleVersion => "1.0.1";
     public override string ModuleAuthor => "imi-tat0r";
     
     public CustomVotesConfig Config { get; set; } = null!;
@@ -58,9 +61,21 @@ public class CustomVotes : BasePlugin, IPluginConfig<CustomVotesConfig>
         config.Update();
     }
     
-    public override void Unload(bool hotReload)
+    [ConsoleCommand("css_reload_cfg", "Reload the config in the current session without restarting the server")]
+    [RequiresPermissions("@css/generic")]
+    [CommandHelper(minArgs: 0, whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
+    public void OnReloadConfigCommand(CCSPlayerController? player, CommandInfo info)
     {
-        base.Unload(hotReload);
+        var config = File.ReadAllText(ConfigExtensions.CfgPath);
+        try
+        {
+            OnConfigParsed(JsonSerializer.Deserialize<CustomVotesConfig>(config,
+                new JsonSerializerOptions() { ReadCommentHandling = JsonCommentHandling.Skip })!);
+        }
+        catch (Exception e)
+        {
+            info.ReplyToCommand($"[DiscordChatSync] Failed to reload config: {e.Message}");
+        }
     }
 }
 

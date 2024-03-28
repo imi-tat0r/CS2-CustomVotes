@@ -3,12 +3,12 @@ using System.Text.Json;
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 
-namespace CS2_CustomVotes.Helpers;
+namespace CS2_CustomVotes.Extensions;
 
-public static class Config
+public static class ConfigExtensions
 {
     private static readonly string AssemblyName = Assembly.GetExecutingAssembly().GetName().Name ?? "";
-    private static readonly string CfgPath = $"{Server.GameDirectory}/csgo/addons/counterstrikesharp/configs/plugins/{AssemblyName}/{AssemblyName}.json";
+    public static readonly string CfgPath = $"{Server.GameDirectory}/csgo/addons/counterstrikesharp/configs/plugins/{AssemblyName}/{AssemblyName}.json";
     
     public static void Update<T>(this T config) where T : BasePluginConfig, new()
     {

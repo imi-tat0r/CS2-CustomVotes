@@ -33,10 +33,16 @@ public class CustomVotesConfig : BasePluginConfig
                 { "Disable", new("{Red}Disable", new List<string> { "sv_cheats 0" })}
             },
             DefaultOption = "Disable",
-            Style = "center"
+            Style = "center",
+            MinVotePercentage = 50,
+            Permission = new Permission
+            {
+                RequiresAll = false,
+                Permissions = new List<string>()
+            }
         }
     };
 
     [JsonPropertyName("ConfigVersion")] 
-    public override int Version { get; set; } = 1;
+    public override int Version { get; set; } = 2;
 }

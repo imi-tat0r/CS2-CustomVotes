@@ -18,7 +18,7 @@ namespace CS2_CustomVotes.Services;
 public interface IVoteManager
 {
     public void AddVote(CustomVote vote);
-    public void AddVote(string name, List<string> aliases, string description, string defaultOption, float timeToVote, Dictionary<string, VoteOption> options, string style = "center");
+    public void AddVote(string name, List<string> aliases, string description, string defaultOption, float timeToVote, Dictionary<string, VoteOption> options, string style = "center", int minVotePercentage = 50);
     public void RemoveVote(string name);
     
     public bool StartVote(CCSPlayerController? player, string name, out string baseName);
@@ -76,7 +76,7 @@ public class VoteManager : IVoteManager
         
         vote.ExecuteCommand();
     }
-    public void AddVote(string name, List<string> aliases, string description, string defaultOption, float timeToVote, Dictionary<string, VoteOption> options, string style = "center")
+    public void AddVote(string name, List<string> aliases, string description, string defaultOption, float timeToVote, Dictionary<string, VoteOption> options, string style = "center", int minVotePercentage = 50)
     {
         var customVote = new CustomVote
         {
@@ -86,7 +86,8 @@ public class VoteManager : IVoteManager
             DefaultOption = defaultOption,
             TimeToVote = timeToVote,
             Options = options,
-            Style = style
+            Style = style,
+            MinVotePercentage = minVotePercentage,
         };
         AddVote(customVote);
     }

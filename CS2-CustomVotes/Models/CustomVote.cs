@@ -36,7 +36,10 @@ public class CustomVote
     
     [JsonPropertyName("Style")] 
     public string Style { get; set; } = null!;
-    
+
+    [JsonPropertyName("MinVotePercentage")]
+    public int MinVotePercentage { get; set; } = -1;
+
     [JsonPropertyName("Permission")]
     public Permission Permission { get; set; } = new();
 

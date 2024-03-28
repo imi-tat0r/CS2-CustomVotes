@@ -15,13 +15,24 @@ public class CustomVoteApi : ICustomVoteApi
 
     public void AddCustomVote(string name, string description, string defaultOption, float timeToVote, Dictionary<string, VoteOption> options, string style)
     {
-        _voteManager.AddVote(name, new List<string>(), description, defaultOption, timeToVote, options, style);
+        _voteManager.AddVote(name, new List<string>(), description, defaultOption, timeToVote, options, style, -1);
     }
 
     public void AddCustomVote(string name, List<string> aliases, string description, string defaultOption, float timeToVote,
         Dictionary<string, VoteOption> options, string style)
     {
-        _voteManager.AddVote(name, aliases, description, defaultOption, timeToVote, options, style);
+        _voteManager.AddVote(name, aliases, description, defaultOption, timeToVote, options, style, -1);
+    }
+    
+    public void AddCustomVote(string name, string description, string defaultOption, float timeToVote, Dictionary<string, VoteOption> options, string style, int minVotePercentage)
+    {
+        _voteManager.AddVote(name, new List<string>(), description, defaultOption, timeToVote, options, style, minVotePercentage);
+    }
+
+    public void AddCustomVote(string name, List<string> aliases, string description, string defaultOption, float timeToVote,
+        Dictionary<string, VoteOption> options, string style, int minVotePercentage)
+    {
+        _voteManager.AddVote(name, aliases, description, defaultOption, timeToVote, options, style, minVotePercentage);
     }
 
     public void RemoveCustomVote(string name)
