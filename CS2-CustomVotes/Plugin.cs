@@ -9,6 +9,7 @@ using CS2_CustomVotes.Extensions;
 using CS2_CustomVotes.Factories;
 using CS2_CustomVotes.Services;
 using CS2_CustomVotes.Shared;
+using CSSharpUtils.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -66,11 +67,9 @@ public class CustomVotes : BasePlugin, IPluginConfig<CustomVotesConfig>
     [CommandHelper(minArgs: 0, whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnReloadConfigCommand(CCSPlayerController? player, CommandInfo info)
     {
-        var config = File.ReadAllText(ConfigExtensions.CfgPath);
         try
         {
-            OnConfigParsed(JsonSerializer.Deserialize<CustomVotesConfig>(config,
-                new JsonSerializerOptions() { ReadCommentHandling = JsonCommentHandling.Skip })!);
+            OnConfigParsed(new CustomVotesConfig().Reload());
         }
         catch (Exception e)
         {
