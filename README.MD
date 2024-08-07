@@ -8,7 +8,7 @@ CS2-CustomVotes is a plugin for Counter-Strike 2 that allows you to easily creat
 Every vote options can trigger multiple commands at once allowing for a wide range of possibilities.
 
 # Usage
-`dotnet add package CS2-CustomVotes`
+`dotnet add package CS2-CustomVotes.Shared`
 
 # Features
 - Custom votes with any number of options

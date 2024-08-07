@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - 'README.MD'
+      - '.github/workflows/**'
 
 jobs:
   build:
@@ -59,19 +62,19 @@ jobs:
 
       - name: Create necessary directory structure and copy files
         run: |
-          mkdir -p release/Public/addons/counterstrikesharp/configs/plugins/CS2-CustomVotes
-          mkdir -p release/Public/addons/counterstrikesharp/plugins/CS2-CustomVotes/lang
-          mkdir -p release/Public/addons/counterstrikesharp/shared/CS2-CustomVotes.Shared
-          cp CS2-CustomVotes.json.example release/Public/addons/counterstrikesharp/configs/plugins/CS2-CustomVotes/CS2-CustomVotes.json
-          cp -r CS2-CustomVotes/bin/Release/net8.0/* release/Public/addons/counterstrikesharp/plugins/CS2-CustomVotes/
-          cp -r CS2-CustomVotes.Shared/bin/Release/net8.0/* release/Public/addons/counterstrikesharp/shared/CS2-CustomVotes.Shared/
+          mkdir -p release/addons/counterstrikesharp/configs/plugins/CS2-CustomVotes
+          mkdir -p release/addons/counterstrikesharp/plugins/CS2-CustomVotes/lang
+          mkdir -p release/addons/counterstrikesharp/shared/CS2-CustomVotes.Shared
+          cp CS2-CustomVotes.json.example release/addons/counterstrikesharp/configs/plugins/CS2-CustomVotes/CS2-CustomVotes.json
+          cp -r CS2-CustomVotes/bin/Release/net8.0/* release/addons/counterstrikesharp/plugins/CS2-CustomVotes/
+          cp -r CS2-CustomVotes.Shared/bin/Release/net8.0/* release/addons/counterstrikesharp/shared/CS2-CustomVotes.Shared/
           # Ensure the lang directory is copied
-          cp -r CS2-CustomVotes/lang/* release/Public/addons/counterstrikesharp/plugins/CS2-CustomVotes/lang/
+          cp -r CS2-CustomVotes/lang/* release/addons/counterstrikesharp/plugins/CS2-CustomVotes/lang/
 
       - name: Create a ZIP file with binaries
         run: |
           cd release
-          zip -r ../CS2-CustomVotes-${{ env.VERSION_NUMBER }}-${{ env.GITHUB_SHA_SHORT }}.zip Public
+          zip -r ../CS2-CustomVotes-${{ env.VERSION_NUMBER }}-${{ env.GITHUB_SHA_SHORT }}.zip addons
 
       - name: Publish NuGet package
         run: dotnet nuget push ./nupkg/CS2-CustomVotes.Shared.${{ env.VERSION_NUMBER }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
