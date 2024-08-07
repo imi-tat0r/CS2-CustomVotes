@@ -1,0 +1,102 @@
+name: Build & Publish
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Prepare env
+        shell: bash
+        run: echo "GITHUB_SHA_SHORT=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Extract version number from README.MD
+        id: extract_version
+        run: |
+          VERSION=$(grep -oP '(?<=# CS2 Custom Votes \()[0-9]+\.[0-9]+\.[0-9]+' README.MD)
+          if [ -z "$VERSION" ]; then
+            echo "No version number found in README.MD. Exiting."
+            exit 1
+          fi
+          echo "VERSION_NUMBER=$VERSION" >> $GITHUB_ENV
+
+      - name: Check if version already exists
+        id: check_version
+        run: |
+          if gh release view "${{ env.VERSION_NUMBER }}" > /dev/null 2>&1; then
+            echo "Version ${{ env.VERSION_NUMBER }} already exists. Exiting."
+            exit 0
+          fi
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build projects
+        run: dotnet build -c Release --no-restore /p:Version=${{ env.VERSION_NUMBER }}
+
+      - name: Pack CS2-CustomVotes.Shared
+        run: dotnet pack CS2-CustomVotes.Shared/CS2-CustomVotes.Shared.csproj -c Release --no-build --output ./nupkg /p:Version=${{ env.VERSION_NUMBER }}
+
+      - name: Check contents of output directories
+        run: |
+          echo "Listing contents of CS2-CustomVotes/bin/Release/net8.0/"
+          ls -la CS2-CustomVotes/bin/Release/net8.0/
+          echo "Listing contents of CS2-CustomVotes.Shared/bin/Release/net8.0/"
+          ls -la CS2-CustomVotes.Shared/bin/Release/net8.0/
+
+      - name: Create necessary directory structure and copy files
+        run: |
+          mkdir -p release/Public/addons/counterstrikesharp/configs/plugins/CS2-CustomVotes
+          mkdir -p release/Public/addons/counterstrikesharp/plugins/CS2-CustomVotes/lang
+          mkdir -p release/Public/addons/counterstrikesharp/shared/CS2-CustomVotes.Shared
+          cp CS2-CustomVotes.json.example release/Public/addons/counterstrikesharp/configs/plugins/CS2-CustomVotes/CS2-CustomVotes.json
+          cp -r CS2-CustomVotes/bin/Release/net8.0/* release/Public/addons/counterstrikesharp/plugins/CS2-CustomVotes/
+          cp -r CS2-CustomVotes.Shared/bin/Release/net8.0/* release/Public/addons/counterstrikesharp/shared/CS2-CustomVotes.Shared/
+          # Ensure the lang directory is copied
+          cp -r CS2-CustomVotes/lang/* release/Public/addons/counterstrikesharp/plugins/CS2-CustomVotes/lang/
+
+      - name: Create a ZIP file with binaries
+        run: |
+          cd release
+          zip -r ../CS2-CustomVotes-${{ env.VERSION_NUMBER }}-${{ env.GITHUB_SHA_SHORT }}.zip Public
+
+      - name: Publish NuGet package
+        run: dotnet nuget push ./nupkg/CS2-CustomVotes.Shared.${{ env.VERSION_NUMBER }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ env.VERSION_NUMBER }}
+          release_name: ${{ env.VERSION_NUMBER }}
+          draft: false
+          prerelease: false
+          body: |
+            ## Changes
+            - Auto-generated release
+            ${{ github.event.head_commit.message }}
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./CS2-CustomVotes-${{ env.VERSION_NUMBER }}-${{ env.GITHUB_SHA_SHORT }}.zip
+          asset_name: CS2-CustomVotes-${{ env.VERSION_NUMBER }}-${{ env.GITHUB_SHA_SHORT }}.zip
+          asset_content_type: application/zip
