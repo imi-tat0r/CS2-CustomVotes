@@ -1,14 +1,11 @@
 ![Copyright ev0lve Digital](https://img.shields.io/badge/Copyright-ev0lve%20Digital-blue) ![GitHub License](https://img.shields.io/github/license/imi-tat0r/CS2-CustomVotes) ![Issues](https://img.shields.io/github/issues/imi-tat0r/CS2-CustomVotes) ![Downloads](https://img.shields.io/github/downloads/imi-tat0r/CS2-CustomVotes/total) ![Stars](https://img.shields.io/github/stars/imi-tat0r/CS2-CustomVotes)
 
-# CS2 Custom Votes (1.1.0)
+# CS2 Custom Votes (1.1.1)
 ![image](https://du.hurenso.hn/r/X4jQaq.png) ![image](https://du.hurenso.hn/r/81Imq8.png)
 
 # About
 CS2-CustomVotes is a plugin for Counter-Strike 2 that allows you to easily create preference votes for your server. Create votes with any number of options and let your players decide on the settings of your server.  
 Every vote options can trigger multiple commands at once allowing for a wide range of possibilities.
-
-# Usage
-`dotnet add package CS2-CustomVotes.Shared`
 
 # Features
 - Custom votes with any number of options
@@ -73,7 +70,14 @@ Every vote options can trigger multiple commands at once allowing for a wide ran
 ```
 
 # API
-CS2-CustomVotes provides a shared API for other plugins to register custom votes. After adding the reference to your project, you can create custom votes like this:
+CS2-CustomVotes provides a shared API for other plugins to register custom votes.
+
+Add a reference to `CS2-CustomVotes.Shared` to your project in one of the following ways: 
+1. Download the source code and build it yourself
+2. Download the latest release from the [releases page](https://github.com/imi-tat0r/CS2-CustomVotes/releases).
+3. Install the package using the .NET CLI, run: `dotnet add package CS2-CustomVotes.Shared`
+
+After adding the reference to your project, you can create custom votes like this:
 ```csharp
 public interface ICustomVoteApi
 {
