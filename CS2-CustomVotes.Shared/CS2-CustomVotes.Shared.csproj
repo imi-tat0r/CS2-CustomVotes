@@ -6,9 +6,4 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Exec Command="mkdir $(SolutionDir)Public\addons\counterstrikesharp\shared\CS2-CustomVotes.Shared" IgnoreExitCode="true" />
-        <Exec Command="xcopy /Y /R $(TargetDir)*.* $(SolutionDir)Public\addons\counterstrikesharp\shared\CS2-CustomVotes.Shared\" />
-    </Target>
 </Project>
