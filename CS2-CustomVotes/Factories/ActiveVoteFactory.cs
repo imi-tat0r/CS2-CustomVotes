@@ -33,7 +33,7 @@ public class ActiveVoteFactory : IActiveVoteFactory
         var style = _plugin.Config.ForceStyle == "none" ? vote.Style : _plugin.Config.ForceStyle;
         
         if (style == "center")
-            activeVote.VoteMenu = new CenterHtmlMenu(activeVote.Vote.Description);
+            activeVote.VoteMenu = new CenterHtmlMenu(activeVote.Vote.Description, _plugin);
         else
             activeVote.VoteMenu = new ChatMenu(activeVote.Vote.Description);
 
