@@ -1,5 +1,4 @@
-﻿using CS2_CustomVotes.Models;
-using CS2_CustomVotes.Shared;
+﻿using CS2_CustomVotes.Shared;
 using CS2_CustomVotes.Shared.Models;
 
 namespace CS2_CustomVotes.Services;
@@ -12,10 +11,9 @@ public class CustomVoteApi : ICustomVoteApi
     {
         _voteManager = voteManager;
     }
-
     public void AddCustomVote(string name, string description, string defaultOption, float timeToVote, Dictionary<string, VoteOption> options, string style)
     {
-        _voteManager.AddVote(name, new List<string>(), description, defaultOption, timeToVote, options, style, -1);
+        _voteManager.AddVote(name, [], description, defaultOption, timeToVote, options, style, -1);
     }
 
     public void AddCustomVote(string name, List<string> aliases, string description, string defaultOption, float timeToVote,
@@ -26,7 +24,7 @@ public class CustomVoteApi : ICustomVoteApi
     
     public void AddCustomVote(string name, string description, string defaultOption, float timeToVote, Dictionary<string, VoteOption> options, string style, int minVotePercentage)
     {
-        _voteManager.AddVote(name, new List<string>(), description, defaultOption, timeToVote, options, style, minVotePercentage);
+        _voteManager.AddVote(name, [], description, defaultOption, timeToVote, options, style, minVotePercentage);
     }
 
     public void AddCustomVote(string name, List<string> aliases, string description, string defaultOption, float timeToVote,

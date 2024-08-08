@@ -10,7 +10,7 @@ public class VoteOption
         Commands = commands;
     }
 
-    [JsonPropertyName("Text")] public string Text { get; set; } = null!;
+    [JsonPropertyName("Text")] public string Text { get; set; }
 
-    [JsonPropertyName("Commands")] public List<string> Commands { get; set; } = new();
+    [JsonPropertyName("Commands")] public List<string> Commands { get; set; }
 }

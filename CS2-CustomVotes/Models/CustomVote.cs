@@ -9,39 +9,39 @@ namespace CS2_CustomVotes.Models;
 public class Permission
 {
     [JsonPropertyName("RequiresAll")]
-    public bool RequiresAll { get; set; } = false;
-    
+    public bool RequiresAll { get; init; }
+
     [JsonPropertyName("Permissions")]
-    public List<string> Permissions { get; set; } = new();
+    public List<string> Permissions { get; init; } = [];
 }
 
 public class CustomVote
 {
     [JsonPropertyName("Command")]
-    public string Command { get; set; } = null!;
+    public string Command { get; init; } = null!;
     [JsonPropertyName("CommandAliases")]
-    public List<string> CommandAliases { get; set; } = new();
+    public List<string> CommandAliases { get; init; } = new();
     
     [JsonPropertyName("Description")]
-    public string Description { get; set; } = null!;
+    public string Description { get; init; } = null!;
     
     [JsonPropertyName("TimeToVote")]
-    public float TimeToVote { get; set; }
+    public float TimeToVote { get; init; }
     
     [JsonPropertyName("Options")]
-    public Dictionary<string, VoteOption> Options { get; set; } = new();
+    public Dictionary<string, VoteOption> Options { get; init; } = new();
     
     [JsonPropertyName("DefaultOption")] 
-    public string DefaultOption { get; set; } = null!;
+    public string DefaultOption { get; init; } = null!;
     
     [JsonPropertyName("Style")] 
-    public string Style { get; set; } = null!;
+    public string Style { get; init; } = null!;
 
     [JsonPropertyName("MinVotePercentage")]
-    public int MinVotePercentage { get; set; } = -1;
+    public int MinVotePercentage { get; init; } = -1;
 
     [JsonPropertyName("Permission")]
-    public Permission Permission { get; set; } = new();
+    public Permission Permission { get; init; } = new();
 
     [JsonIgnore] 
     public float LastVoteTime { get; set; } = 0;
