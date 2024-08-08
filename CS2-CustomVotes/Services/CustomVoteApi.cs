@@ -11,6 +11,7 @@ public class CustomVoteApi : ICustomVoteApi
     {
         _voteManager = voteManager;
     }
+    
     public void AddCustomVote(string name, string description, string defaultOption, float timeToVote, Dictionary<string, VoteOption> options, string style)
     {
         _voteManager.AddVote(name, [], description, defaultOption, timeToVote, options, style, -1);
