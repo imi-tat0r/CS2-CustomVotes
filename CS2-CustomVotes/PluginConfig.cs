@@ -20,8 +20,8 @@ public class CustomVotesConfig : BasePluginConfig
     public string ForceStyle { get; set; } = "none";
     
     [JsonPropertyName("CustomVotes")]
-    public List<CustomVote> CustomVotes { get; set; } = new()
-    {
+    public List<CustomVote> CustomVotes { get; set; } =
+    [
         new CustomVote()
         {
             Command = "cheats",
@@ -29,8 +29,8 @@ public class CustomVotesConfig : BasePluginConfig
             TimeToVote = 30,
             Options = new Dictionary<string, VoteOption>()
             {
-                { "Enable", new("{Green}Enable", new List<string> { "sv_cheats 1" })},
-                { "Disable", new("{Red}Disable", new List<string> { "sv_cheats 0" })}
+                { "Enable", new("{Green}Enable", ["sv_cheats 1"]) },
+                { "Disable", new("{Red}Disable", ["sv_cheats 0"]) }
             },
             DefaultOption = "Disable",
             Style = "center",
@@ -38,10 +38,10 @@ public class CustomVotesConfig : BasePluginConfig
             Permission = new Permission
             {
                 RequiresAll = false,
-                Permissions = new List<string>()
+                Permissions = []
             }
         }
-    };
+    ];
 
     [JsonPropertyName("ConfigVersion")] 
     public override int Version { get; set; } = 2;

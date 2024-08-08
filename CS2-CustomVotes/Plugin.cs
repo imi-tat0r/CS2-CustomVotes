@@ -1,11 +1,9 @@
-﻿using System.Text.Json;
-using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Core.Capabilities;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using CS2_CustomVotes.Extensions;
 using CS2_CustomVotes.Factories;
 using CS2_CustomVotes.Services;
 using CS2_CustomVotes.Shared;
@@ -28,7 +26,7 @@ public class CustomVotes : BasePlugin, IPluginConfig<CustomVotesConfig>
     private readonly ILogger<CustomVotes> _logger;
     private readonly IServiceProvider _serviceProvider;
 
-    public static PluginCapability<ICustomVoteApi> CustomVoteCapability { get; } = new("custom_votes:api");
+    private static PluginCapability<ICustomVoteApi> CustomVoteCapability { get; } = new("custom_votes:api");
 
     public CustomVotes(ILogger<CustomVotes> logger, IServiceProvider serviceProvider)
     {

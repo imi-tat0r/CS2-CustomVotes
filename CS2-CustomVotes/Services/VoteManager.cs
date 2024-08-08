@@ -1,10 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Cvars;
-using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Menu;
-using CounterStrikeSharp.API.Modules.Utils;
 using CS2_CustomVotes.Extensions;
 using CS2_CustomVotes.Factories;
 using CS2_CustomVotes.Models;
@@ -43,10 +40,9 @@ public class VoteManager : IVoteManager
         _localizer = localizer;
         _activeVoteFactory = activeVoteFactory;
     }
-
     private Dictionary<string, CustomVote> Votes { get; set; } = new();
-    private ActiveVote? ActiveVote { get; set; } = null;
-    private float _nextVoteTime = 0;
+    private ActiveVote? ActiveVote { get; set; }
+    private float _nextVoteTime;
 
     public void AddVote(CustomVote vote)
     {
