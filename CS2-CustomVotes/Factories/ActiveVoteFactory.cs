@@ -1,7 +1,7 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Menu;
-using CS2_CustomVotes.Helpers;
 using CS2_CustomVotes.Models;
+using CSSharpUtils.Utils;
 using Microsoft.Extensions.Localization;
 
 namespace CS2_CustomVotes.Factories;
@@ -38,7 +38,7 @@ public class ActiveVoteFactory : IActiveVoteFactory
             activeVote.VoteMenu = new ChatMenu(activeVote.Vote.Description);
 
         foreach (var voteOption in activeVote.Vote.Options)
-            activeVote.VoteMenu.AddMenuOption(style == "center" ? _localizer[voteOption.Key] : Chat.FormatMessage(_localizer[voteOption.Value.Text]),
+            activeVote.VoteMenu.AddMenuOption(style == "center" ? _localizer[voteOption.Key] : ChatUtils.FormatMessage(_localizer[voteOption.Value.Text]),
                 (caller, option) => onPlayerVoted(caller, option.Text));
         
         return activeVote;

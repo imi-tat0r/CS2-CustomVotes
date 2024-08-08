@@ -7,9 +7,9 @@ using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using CS2_CustomVotes.Extensions;
 using CS2_CustomVotes.Factories;
-using CS2_CustomVotes.Helpers;
 using CS2_CustomVotes.Models;
 using CS2_CustomVotes.Shared.Models;
+using CSSharpUtils.Utils;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 
@@ -124,13 +124,13 @@ public class VoteManager : IVoteManager
         
         if (_nextVoteTime > Server.CurrentTime)
         {
-            player!.PrintToChat($"{Chat.FormatMessage(_plugin.Config.ChatPrefix)} {Chat.FormatMessage(_localizer["vote.cooldown", _plugin.Config.VoteCooldown])}");
+            player!.PrintToChat($"{ChatUtils.FormatMessage(_plugin.Config.ChatPrefix)} {ChatUtils.FormatMessage(_localizer["vote.cooldown", _plugin.Config.VoteCooldown])}");
             return false;
         }
         
         if (!vote.CheckPermissions(player))
         {
-            player!.PrintToChat($"{Chat.FormatMessage(_plugin.Config.ChatPrefix)} {Chat.FormatMessage(_localizer["vote.no_permission"])}");
+            player!.PrintToChat($"{ChatUtils.FormatMessage(_plugin.Config.ChatPrefix)} {ChatUtils.FormatMessage(_localizer["vote.no_permission"])}");
             return false;
         }
 
@@ -178,7 +178,7 @@ public class VoteManager : IVoteManager
         }
 
         // clean any color codes etc
-        option = Chat.CleanMessage(option);
+        option = ChatUtils.CleanMessage(option);
         
         if (!ActiveVote.Vote.Options.ContainsKey(option))
         {
@@ -194,11 +194,11 @@ public class VoteManager : IVoteManager
         
         // mark player index as voted 
         if (!ActiveVote.OptionVotes[option].Contains(player!.Pawn.Index))
-            ActiveVote.OptionVotes[option].Add(player!.Pawn.Index);
+            ActiveVote.OptionVotes[option].Add(player.Pawn.Index);
         else
         {
-            _logger.LogDebug("[CustomVotes] Player {Name} already voted", player!.PlayerName);
-            player!.PrintToChat($"{Chat.FormatMessage(_plugin.Config.ChatPrefix)} {Chat.FormatMessage(_localizer["vote.already_voted"])}");
+            _logger.LogDebug("[CustomVotes] Player {Name} already voted", player.PlayerName);
+            player.PrintToChat($"{ChatUtils.FormatMessage(_plugin.Config.ChatPrefix)} {ChatUtils.FormatMessage(_localizer["vote.already_voted"])}");
         }
         
         var players = Utilities.GetPlayers().Select(p => p.Pawn.Index);
@@ -254,17 +254,17 @@ public class VoteManager : IVoteManager
         var winningOption = ActiveVote.GetWinningOption();
         
         // announce winner and execute commands
-        Server.PrintToChatAll($"{Chat.FormatMessage(_plugin.Config.ChatPrefix)} {Chat.FormatMessage(_localizer["vote.finished_with", ActiveVote.Vote.Command, winningOption.Key, winningOption.Value.Count])}");
+        Server.PrintToChatAll($"{ChatUtils.FormatMessage(_plugin.Config.ChatPrefix)} {ChatUtils.FormatMessage(_localizer["vote.finished_with", ActiveVote.Vote.Command, winningOption.Key, winningOption.Value.Count])}");
         ActiveVote.Vote.ExecuteCommand(winningOption.Key);
         
-        _logger.LogInformation("[CustomVotes] Vote for {Name} ended with {Option}", ActiveVote.Vote.Command, Chat.CleanMessage(winningOption.Key));
+        _logger.LogInformation("[CustomVotes] Vote for {Name} ended with {Option}", ActiveVote.Vote.Command, ChatUtils.CleanMessage(winningOption.Key));
     }
     
     private void HandleVoteStartRequest(CCSPlayerController? player, CommandInfo info)
     {
         if (!_plugin.Config.CustomVotesEnabled)
         {
-            player!.PrintToChat($"{Chat.FormatMessage(_plugin.Config.ChatPrefix)} {Chat.FormatMessage(_localizer["vote.disabled"])}");
+            player!.PrintToChat($"{ChatUtils.FormatMessage(_plugin.Config.ChatPrefix)} {ChatUtils.FormatMessage(_localizer["vote.disabled"])}");
             _logger.LogWarning("[CustomVotes] Custom votes are disabled");
             return;
         }
@@ -277,11 +277,11 @@ public class VoteManager : IVoteManager
         
         if (ActiveVote != null)
         {
-            player!.PrintToChat($"{Chat.FormatMessage(_plugin.Config.ChatPrefix)} {Chat.FormatMessage(_localizer["vote.active"])}");
+            player!.PrintToChat($"{ChatUtils.FormatMessage(_plugin.Config.ChatPrefix)} {ChatUtils.FormatMessage(_localizer["vote.active"])}");
             return;
         }
         
         if (StartVote(player, info.GetArg(0), out var baseName))
-            Server.PrintToChatAll($"{Chat.FormatMessage(_plugin.Config.ChatPrefix)} {Chat.FormatMessage(_localizer["vote.started", player!.PlayerName, baseName])}");
+            Server.PrintToChatAll($"{ChatUtils.FormatMessage(_plugin.Config.ChatPrefix)} {ChatUtils.FormatMessage(_localizer["vote.started", player!.PlayerName, baseName])}");
     }
 }
