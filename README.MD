@@ -1,6 +1,6 @@
 ![Copyright ev0lve Digital](https://img.shields.io/badge/Copyright-ev0lve%20Digital-blue) ![GitHub License](https://img.shields.io/github/license/imi-tat0r/CS2-CustomVotes) ![Issues](https://img.shields.io/github/issues/imi-tat0r/CS2-CustomVotes) ![Downloads](https://img.shields.io/github/downloads/imi-tat0r/CS2-CustomVotes/total) ![Stars](https://img.shields.io/github/stars/imi-tat0r/CS2-CustomVotes)
 
-# CS2 Custom Votes (1.1.1)
+# CS2 Custom Votes (1.1.2)
 ![image](https://du.hurenso.hn/r/X4jQaq.png) ![image](https://du.hurenso.hn/r/81Imq8.png)
 
 # About
