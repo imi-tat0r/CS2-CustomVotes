@@ -1,5 +1,6 @@
 ﻿using CS2_CustomVotes.Shared;
-using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+﻿using CounterStrikeSharp.API.Core;
 using CS2_CustomVotes.Shared.Models;
 
 namespace CS2_CustomVotes.Services;
@@ -35,9 +36,16 @@ public class CustomVoteApi : ICustomVoteApi
         _voteManager.AddVote(name, aliases, description, defaultOption, timeToVote, options, style, minVotePercentage);
     }
 
+    public void AddCustomVote(string name, List<string> aliases, string description, string defaultOption, float timeToVote,
+        Dictionary<string, VoteOption> options, string style, int minVotePercentage)
+    {
+        _voteManager.AddVote(name, aliases, description, defaultOption, timeToVote, options, style, minVotePercentage);
+    }
+
     public void StartCustomVote(CCSPlayerController? player, string name)
     {
-        bool result = _voteManager.StartVote(player, name, out string baseName);
+        string baseName = "";
+        string result = _voteManager.StartVote(player, name, out string baseName);
     }
 
     public void RemoveCustomVote(string name)
