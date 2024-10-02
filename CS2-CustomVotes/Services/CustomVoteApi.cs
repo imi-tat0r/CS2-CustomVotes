@@ -1,4 +1,6 @@
 ﻿using CS2_CustomVotes.Shared;
+﻿using CounterStrikeSharp.API;
+﻿using CounterStrikeSharp.API.Core;
 using CS2_CustomVotes.Shared.Models;
 
 namespace CS2_CustomVotes.Services;
