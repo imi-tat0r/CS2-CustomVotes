@@ -34,17 +34,6 @@ public class CustomVoteApi : ICustomVoteApi
         _voteManager.AddVote(name, aliases, description, defaultOption, timeToVote, options, style, minVotePercentage);
     }
 
-    public void AddCustomVote(string name, List<string> aliases, string description, string defaultOption, float timeToVote,
-        Dictionary<string, VoteOption> options, string style, int minVotePercentage)
-    {
-        _voteManager.AddVote(name, aliases, description, defaultOption, timeToVote, options, style, minVotePercentage);
-    }
-
-    public void StartCustomVote(CCSPlayerController? player, string name, out string baseName)
-    {
-        _voteManager.StartVote(player, name, out string baseName);
-    }
-
     public void RemoveCustomVote(string name)
     {
         _voteManager.RemoveVote(name);
