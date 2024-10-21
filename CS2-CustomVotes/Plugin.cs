@@ -18,7 +18,7 @@ public class CustomVotes : BasePlugin, IPluginConfig<CustomVotesConfig>
 {
     public override string ModuleName => "Custom Votes";
     public override string ModuleDescription => "Allows you to create custom votes for your server.";
-    public override string ModuleVersion => "1.0.1";
+    public override string ModuleVersion => "1.1.3";
     public override string ModuleAuthor => "imi-tat0r";
     
     public CustomVotesConfig Config { get; set; } = null!;
