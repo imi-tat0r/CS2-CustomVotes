@@ -197,11 +197,11 @@ public class VoteManager : IVoteManager
             player.PrintToChat($"{ChatUtils.FormatMessage(_plugin.Config.ChatPrefix)} {ChatUtils.FormatMessage(_localizer["vote.already_voted"])}");
         }
         
-        var players = Utilities.GetPlayers().Select(p => p.Pawn.Index);
+        var players = Utilities.GetPlayers().Where(p => p.IsPlayer()).Select(p => p.Pawn.Index);
         var votePlayers = ActiveVote.OptionVotes.Values.SelectMany(p => p).Distinct();
         
         // if all players voted, end vote early
-        if (votePlayers.All(players.Contains))
+        if (players.All(votePlayers.Contains))
             EndVote(ActiveVote.Vote.Command);
     }
     public HookResult OnPlayerConnectFull(EventPlayerConnectFull @event, GameEventInfo _)
